@@ -12,6 +12,8 @@ func main () {
     var   a    int     = 12
     var   b    float64 = float64(a)
     
-    fmt.Println(add(num1, num2)+b)
+    x := b // infers the type of x from b
+    
+    fmt.Println(add(num1, num2)+b+x)
 }
 
