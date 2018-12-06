@@ -14,12 +14,23 @@ type car struct {
     top_speed_kph  float64
 }
 
-// value receiver associated with struct (aka method)
+// (method) value receiver: works on a copy of the structure
 func (c car) kmh () float64 {
     return float64(c.gas_pedal) * (c.top_speed_kph/usixteenbitmax)
 }
 func (c car) mph () float64 {
     return float64(c.gas_pedal) * (c.top_speed_kph/usixteenbitmax/kmh_multiple)
+}
+
+// (method) pointer receiver: works on a reference to the structure
+func (c *car) new_top_speed (newspeed float64) {
+    c.top_speed_kph = newspeed
+}
+
+// plain function
+func newer_top_speed (c car, speed float64) car {
+    c.top_speed_kph = speed
+    return c
 }
 
 func main () {
@@ -29,6 +40,14 @@ func main () {
                         top_speed_kph:    225.0}
     
     fmt.Println(a_car.gas_pedal)
+    fmt.Println(a_car.kmh())
+    fmt.Println(a_car.mph())
+    
+    a_car.new_top_speed(500)
+    fmt.Println(a_car.kmh())
+    fmt.Println(a_car.mph())
+    
+    a_car = newer_top_speed(a_car, 300)
     fmt.Println(a_car.kmh())
     fmt.Println(a_car.mph())
 }
