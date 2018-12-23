@@ -97,5 +97,8 @@ func main () {
     var s SitemapIndex
     xml.Unmarshal(bytes, &s)
     fmt.Println(s.Locations)
+    
+    for _, Location := range s.Locations {
+        fmt.Printf("%s\n", Location)
+    }
 }
-
