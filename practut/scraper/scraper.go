@@ -85,7 +85,7 @@ type SitemapIndex struct {
 
 type News struct {
     Titles    []string `xml:"url>news>title"`
-    Keywords  []string `xml:"url>news>Keywords"`
+    Keywords  []string `xml:"url>news>keywords"`
     Locations []string `xml:"url>loc"`
 }
 
