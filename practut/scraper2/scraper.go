@@ -106,14 +106,12 @@ func main () {
     bytes := washPostXML
     fmt.Println(string(bytes))
     xml.Unmarshal(bytes, &s)
-//    fmt.Println(s)
     
     for _, Location := range s.Locations {
         resp, _ := http.Get(Location)
         bytes, _ := ioutil.ReadAll(resp.Body)
         resp.Body.Close()
         xml.Unmarshal(bytes, &n)
-//        fmt.Println(n)
         
         for idx, _ := range n.Titles {
             news_map[n.Titles[idx]] = NewsMap{n.Keywords[idx], n.Locations[idx]}
