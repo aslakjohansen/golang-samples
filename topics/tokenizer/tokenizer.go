@@ -13,6 +13,7 @@ const (
     POW
     LPAR
     RPAR
+    EOF
 )
 type token_constructor func(c chan int, begin_line int, begin_col int, end_line int, end_col int)
 
