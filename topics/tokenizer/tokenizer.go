@@ -27,8 +27,8 @@ func tokenize (input string) {
 //    var start int = 0
     var begin_line  int = 1
     var begin_col   int = 1
-    var end_line  int = 1
-    var end_col   int = 1
+    var end_line    int = 1
+    var end_col     int = 1
     
     for i := range input {
         fmt.Printf("input[%d] = '%d'\n", i, input[i])
