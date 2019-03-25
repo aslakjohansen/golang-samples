@@ -4,7 +4,8 @@ import "fmt"
 
 type TokenClass int
 const (
-    NUM TokenClass = iota
+    INVALID TokenClass = iota
+    NUM
     VAR
     PLUS
     MINUS
@@ -15,10 +16,12 @@ const (
     RPAR
     EOF
 )
-type token_constructor func(c chan int, begin_line int, begin_col int, end_line int, end_col int)
+type token_constructor func(tc TokenClass, c chan int, begin_line int, begin_col int, end_line int, end_col int)
 
 type state struct {
     constructor token_constructor
+    tokenclass  TokenClass // TODO: prettyfy
+    next [256]int
 }
 
 type tokenizer struct {
@@ -29,6 +32,25 @@ type tokenizer struct {
 func (t *tokenizer) init () {
     t.states = make([]state, 0, 0)
     t.fill = 0
+}
+func (t *tokenizer) populate_static (key string, constructor token_constructor, tc TokenClass) {
+    var s int = 0
+    
+    // find correct state
+    for i := range key {
+        var char byte = key[i]
+        
+        // guard: we are starting a new branch
+        if t.states[s].next[char] == 0 {
+            t.states = append(t.states, state{nil, INVALID, [256]int{0}})
+            t.states[s].next[char] = len(t.states)-1
+        }
+        
+        s = t.states[s].next[char]
+    }
+    
+    t.states[s].constructor = constructor
+    t.states[s].tokenclass = tc
 }
 
 type token struct {
