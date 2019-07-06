@@ -61,13 +61,14 @@ type token struct {
     end_col    int
 }
 
-func (t *tokenizer) tokenize (input string) {
+func (t *tokenizer) tokenize (input_string string) {
 //    var start int = 0
     var begin_line  int = 1
     var begin_col   int = 1
     var end_line    int = 1
     var end_col     int = 1
     
+    var input []byte = []byte(input_string)
     for i := range input {
         fmt.Printf("input[%d] = '%d'\n", i, input[i])
         
@@ -88,8 +89,8 @@ func main () {
     var t tokenizer = tokenizer{}
     t.init()
     
-    var input string = "1.2+ (13-\npi/2)*e ^2";
+    var input string = "1.2+ (13-\npi/2)*e ^2*å";
     
-    fmt.Println("input: "+input)
+    fmt.Printf("input[lenght: %d]: %s\n", len(input), input)
     t.tokenize(input)
 }
