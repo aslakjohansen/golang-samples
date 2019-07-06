@@ -1,5 +1,15 @@
 package main
 
+/*
+# Notes
+
+- http://canonical.org/~kragen/strlen-utf8
+
+Requirements:
+- language itself fits into the 7-bit ASCII space
+- data covers entire UTF-8 space (all valid unicode code points)
+*/
+
 import "fmt"
 
 type TokenClass int
