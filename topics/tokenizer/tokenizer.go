@@ -4,6 +4,8 @@ package main
 # Notes
 
 - http://canonical.org/~kragen/strlen-utf8
+- https://en.wikipedia.org/wiki/UTF-8#Byte_order_mark
+- http://kunststube.net/encoding/
 
 Requirements:
 - language itself fits into the 7-bit ASCII space
