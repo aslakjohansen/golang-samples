@@ -63,7 +63,4 @@ func main () {
     var input string = "3.14 + 7"
     var err = scan(lexer, input)
     fmt.Println("main: error=", err)
-    
-//    fmt.Println("Salary:", salary)
-//    fmt.Printf("Sibling[%d] = %s\n", i, s.(string))
 }
