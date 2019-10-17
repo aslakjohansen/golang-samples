@@ -5,10 +5,12 @@ import (
     
     "github.com/timtadh/lexmachine"
     "github.com/timtadh/lexmachine/machines"
+    
+    "golang-samples/topics/lexmachine/lang"
 )
 
-var NUMBER int = 1
-var PLUS   int = 2
+//var NUMBER int = 1
+//var PLUS   int = 2
 var SPACE  int = 3
 
 func token (id int) lexmachine.Action {
@@ -19,8 +21,8 @@ func token (id int) lexmachine.Action {
 
 func newLexer (dfa bool) *lexmachine.Lexer {
     var lexer = lexmachine.NewLexer()
-    lexer.Add([]byte(`\+`), token(PLUS))
-    lexer.Add([]byte(`[0-9]*\.?[0-9]+`), token(NUMBER))
+    lexer.Add([]byte(`\+`), token(lang.PLUS))
+    lexer.Add([]byte(`[0-9]*\.?[0-9]+`), token(lang.NUMBER))
     lexer.Add([]byte(`\s+`), token(SPACE))
     
     var err error
