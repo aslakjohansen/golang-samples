@@ -15,12 +15,11 @@ func main () {
 //    var err = scan(lexer, input)
 //    fmt.Println("main: error=", err)
     
-    stmts, err := lang.Parse(lexer, input)
+    line, err := lang.Parse(lexer, input)
     if err != nil {
         fmt.Fprintln(os.Stderr, err)
         os.Exit(1)
     }
-    for _, stmt := range stmts {
-        fmt.Println(stmt)
-    }
+    
+    fmt.Println(line)
 }
