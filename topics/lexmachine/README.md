@@ -10,6 +10,12 @@ go install golang.org/x/tools/cmd/goyacc
 goyacc lang/lang.y
 ```
 
+# Running
+
+```shell
+make
+```
+
 # References
 
 - [goyacc](https://godoc.org/golang.org/x/tools/cmd/goyacc)
