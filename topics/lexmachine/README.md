@@ -4,9 +4,11 @@ Based on [this](https://github.com/timtadh/lexmachine).
 
 # Dependencies
 
+```shell
 go get -u golang.org/x/tools/cmd/goyacc
 go install golang.org/x/tools/cmd/goyacc
 goyacc lang/lang.y
+```
 
 # References
 
