@@ -17,8 +17,6 @@ func Parse (lexer *lexmachine.Lexer, input string) (line *Node, err error) {
         }
     }()
     
-//    var overrule = []byte{43}
-//    scanner, err := newGoLex(lexer, overrule)
     scanner, err := newGoLex(lexer, []byte(input))
     if err != nil {
         return nil, err

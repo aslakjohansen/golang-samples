@@ -17,7 +17,6 @@ type golex struct {
 }
 
 func newGoLex (lexer *lexmachine.Lexer, text []byte) (*golex, error) {
-    fmt.Println("lexer.go:newGoLex> ", lexer, text, text[0])
     scan, err := lexer.Scanner(text)
     if err != nil {
         return nil, err
@@ -26,35 +25,25 @@ func newGoLex (lexer *lexmachine.Lexer, text []byte) (*golex, error) {
 }
 
 func (g *golex) Lex (lval *yySymType) (tokenType int) {
-    fmt.Println("lexer.go:Lex> lval=", lval)
     s := g.Scanner
     tok, err, eof := s.Next()
-    fmt.Println("lexer.go:Lex> next token: ", tok);
     if err != nil {
         g.Error(err.Error())
     } else if eof {
-        fmt.Println("lexer.go:Lex> EOF reached");
         return -1 // Note: signals EOF to yyParse
     }
     
     lval.token = tok.(*lexmachine.Token)
-    fmt.Println("lexer.go:Lex> lval.token: ", lval.token);
-    
-    fmt.Println("lexer.go:Lex> return value: ", lval.token.Type + (yyPrivate-1), " or ", lval.token.Type);
-//    return lval.token.Type + (yyPrivate-1)
     return lval.token.Type
 }
 
 func token (id int) lexmachine.Action {
-    fmt.Println("Creating token", id)
     return func (s *lexmachine.Scanner, m *machines.Match) (interface{}, error) {
-        fmt.Println("lexer.go:token/anon> ", id, string(m.Bytes), m)
         return s.Token(id, string(m.Bytes), m), nil
     }
 }
 
 func (l *golex) Error (message string) {
-    fmt.Println("lexer.go:Error> '", message, "'", l.line);
     panic(fmt.Errorf(message))
 }
 
@@ -84,7 +73,6 @@ func scan (lexer *lexmachine.Lexer, input string) error {
 
 func NewLexer (dfa bool) *lexmachine.Lexer {
     var lexer = lexmachine.NewLexer()
-    fmt.Println("token(NUMBER) ", token(NUMBER), " | NUMBER ", NUMBER)
     lexer.Add([]byte(`\+`), token(PLUS))
     lexer.Add([]byte(`[0-9]*\.?[0-9]+`), token(NUMBER))
 //    lexer.Add([]byte(`\s+`), token(SPACE))
