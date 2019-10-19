@@ -7,10 +7,6 @@ import (
     "github.com/timtadh/lexmachine/machines"
 )
 
-//var NUMBER int = 1
-//var PLUS   int = 2
-//var SPACE  int = 3
-
 type golex struct {
     *lexmachine.Scanner
     line *Node
