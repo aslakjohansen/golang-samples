@@ -43,30 +43,6 @@ func (l *golex) Error (message string) {
     panic(fmt.Errorf(message))
 }
 
-// TODO: is this dead code?
-func scan (lexer *lexmachine.Lexer, input string) error {
-    fmt.Println("!!!!!!!!!!!!!!!!! UNDEAD CODE !!!!!!!!!!!!!!!!!")
-    scanner, err := lexer.Scanner([]byte(input))
-    if err != nil {
-        panic(err)
-    }
-    
-    for tok, err, eos := scanner.Next(); !eos; tok, err, eos = scanner.Next() {
-        if ui, is := err.(*machines.UnconsumedInput); is {
-            // skip the error via:
-            // scanner.TC = ui.FailTC
-            //
-            fmt.Println("scan: ui=", ui)
-            fmt.Println("scan: is=", is)
-            return err
-        } else if err != nil {
-            return err
-        }
-        fmt.Println(tok)
-    }
-    return nil
-}
-
 func NewLexer (dfa bool) *lexmachine.Lexer {
     var lexer = lexmachine.NewLexer()
     lexer.Add([]byte(`\+`), token(PLUS))
