@@ -12,6 +12,8 @@ goyacc lang/lang.y
 
 # Running
 
+Make sure that `$GOPATH` is set, that `$GOPATH/bin` is in `$PATH` and that this repository is reacable directly under `$GOPATH/src`. Then run:
+
 ```shell
 make
 ```
