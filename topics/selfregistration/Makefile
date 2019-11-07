@@ -9,5 +9,5 @@ clean:
 
 
 test: test.go
-	go run test.go modules/*/*.go
+	go run test.go
 
