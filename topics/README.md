@@ -14,3 +14,6 @@
   - 1-to-N notifications
   - Mutex Locks
   - Counting Semaphores
+  - Select from dynamic number of cases
+  - Data flow manipulations
+
