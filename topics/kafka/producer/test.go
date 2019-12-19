@@ -18,7 +18,7 @@ func producer (channel chan string, wait chan byte, w *kafka.Writer) {
     
     for message := range channel {
         w.WriteMessages(context.Background(), kafka.Message{
-            Key:   []byte("Key-A"),
+            Key:   []byte("Payload"),
             Value: []byte(message),
         })
     }
@@ -46,7 +46,7 @@ func main () {
     go producer(channel, wait, writer)
     
     for i := 0;  i<100; i++ {
-        channel <- fmt.Sprintf("%d", i)
+        channel <- fmt.Sprintf("count: %d", i)
     }
     
     // wait for operations to finish
