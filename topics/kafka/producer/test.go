@@ -3,7 +3,9 @@ package main
 import (
     "fmt"
     "os"
-    "github.com/confluentinc/confluent-kafka-go/kafka"
+    "context"
+    
+    kafka "github.com/segmentio/kafka-go"
 )
 
 const (
@@ -11,18 +13,14 @@ const (
     topic string = "testtopic"
 )
 
-func producer (channel chan string, wait chan byte, p kafka.Producer) {
+func producer (channel chan string, wait chan byte, w *kafka.Writer) {
     defer close(wait)
     
     for message := range channel {
-        err = p.Produce(&kafka.Message{
-            TopicPartition: kafka.TopicPartition{Topic: topic, Partition: kafka.PartitionAny},
-            Value: []byte(message)},
-        )
-        if err != nil {
-            fmt.Printf("Failed to transmit: %s\n", err)
-            os.Exit(1)
-        }
+        w.WriteMessages(context.Background(), kafka.Message{
+            Key:   []byte("Key-A"),
+            Value: []byte(message),
+        })
     }
     
     // finish
@@ -30,26 +28,22 @@ func producer (channel chan string, wait chan byte, p kafka.Producer) {
 }
 
 func main () {
-    brokers string := os.Args[1]
-    group string   := os.Args[2]
+    var brokers string = os.Args[1]
+//    var group string   = os.Args[2]
     
-    fmt.Printf("About to connect to %s", prokers)
+    fmt.Printf("About to connect to %s\n", brokers)
     
-    p, err := kafka.NewProducer(&kafka.ConfigMap{
-        "bootstrap.servers": brokers,
-        "group.id":          group,
-        "client.id": myid,
-        "default.topic.config": kafka.ConfigMap{'acks': 'all'}
+    writer := kafka.NewWriter(kafka.WriterConfig{
+        Brokers: []string{brokers},
+        Topic:   topic,
+        Balancer: &kafka.LeastBytes{},
     })
-    if err != nil {
-        fmt.Printf("Failed to create producer: %s\n", err)
-        os.Exit(1)
-    }
+    defer writer.Close()
     
-    channel chan string := make(chan string, 10)
-    channel byte := make(chan byte)
+    var channel chan string = make(chan string, 10)
+    var wait chan byte = make(chan byte)
     
-    go sender(channel, wait, p)
+    go producer(channel, wait, writer)
     
     for i := 0;  i<100; i++ {
         channel <- fmt.Sprintf("%d", i)
