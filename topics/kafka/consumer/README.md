@@ -1,0 +1,7 @@
+# Dependencies
+
+segmentio API
+```shell
+go get github.com/segmentio/kafka-go
+```
+
