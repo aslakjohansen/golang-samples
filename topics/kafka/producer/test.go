@@ -4,6 +4,7 @@ import (
     "fmt"
     "os"
     "context"
+    "time"
     
     kafka "github.com/segmentio/kafka-go"
 )
@@ -17,10 +18,16 @@ func producer (channel chan string, wait chan byte, w *kafka.Writer) {
     defer close(wait)
     
     for message := range channel {
-        w.WriteMessages(context.Background(), kafka.Message{
+        fmt.Printf("%d new_message msg=\"%s\"\n", time.Now().UnixNano(), message)
+        var err = w.WriteMessages(context.Background(), kafka.Message{
             Key:   []byte("Payload"),
             Value: []byte(message),
         })
+        if err != nil {
+            fmt.Println(err)
+        }
+        
+        fmt.Printf("%d send_complete\n", time.Now().UnixNano())
     }
     
     // finish
@@ -35,6 +42,7 @@ func main () {
         Brokers: []string{brokers},
         Topic:   topic,
         Balancer: &kafka.LeastBytes{},
+        BatchTimeout: 10 * time.Millisecond,
     })
     defer writer.Close()
     
