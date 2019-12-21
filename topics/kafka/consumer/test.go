@@ -14,23 +14,9 @@ const (
     topic string = "testtopic"
 )
 
-func producer (channel chan string, wait chan byte, w *kafka.Writer) {
-    defer close(wait)
-    
-    for message := range channel {
-        w.WriteMessages(context.Background(), kafka.Message{
-            Key:   []byte("Key-A"),
-            Value: []byte(message),
-        })
-    }
-    
-    // finish
-    wait <- 0
-}
-
 func main () {
     var brokers []string = strings.Split(os.Args[1], ",")
-    var group string   = os.Args[2]
+    var group string     = os.Args[2]
     
     fmt.Printf("About to connect to %s\n", brokers)
     
@@ -38,7 +24,7 @@ func main () {
         Brokers:  brokers,
         GroupID:  group,
         Topic:    topic,
-        MinBytes: 10e3, // 10KB
+        MinBytes: 10e3, // 10kB
         MaxBytes: 10e6, // 10MB
     })
     defer reader.Close()
