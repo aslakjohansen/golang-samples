@@ -29,8 +29,6 @@ func producer (channel chan string, wait chan byte, w *kafka.Writer) {
 
 func main () {
     var brokers string = os.Args[1]
-//    var group string   = os.Args[2]
-    
     fmt.Printf("About to connect to %s\n", brokers)
     
     writer := kafka.NewWriter(kafka.WriterConfig{
