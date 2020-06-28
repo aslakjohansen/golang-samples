@@ -1,11 +1,14 @@
 package main
 
 import (
+    "runtime"
     "fmt"
     python "github.com/sbinet/go-python"
 )
 
 func main () {
+    runtime.LockOSThread() // stick go routine to thread
+    
     err := python.Initialize()
     if err != nil {
         fmt.Println("Unable to initialize python", err)
